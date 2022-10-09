@@ -10,12 +10,13 @@ def read_message(open_socket: socket):
     :return: the complete message decoded
     """
     message = open_socket.recv(BUF_SIZE).decode()
-    print("received message: " + message)
+    print(f'received message, first chunk of size {BUF_SIZE}:' + message)
 
     while not message[-1] == '\n':
         temp_message = open_socket.recv(Half_BUF_SIZE).decode()
         message += temp_message
 
+    print("The complete received message after assembly: " + message)
     return message
 
 
