@@ -3,7 +3,7 @@ from utils import read_message, send_message, init_outgoing_socket
 
 
 def start_proxy(listen_port: int, fake_ip: str, server_ip: str):
-    listening_socket = socket(AddressFamily.AF_INET, SOCK_STREAM)
+    listening_socket = socket(AF_INET, SOCK_STREAM)
 
     # listen for connections on the provided port (backlog up to 100 requests)
     listening_socket.bind(('', listen_port))
