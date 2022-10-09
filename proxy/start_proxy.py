@@ -1,5 +1,5 @@
 from socket import *
-from utils import read_message, init_outgoing_socket
+from utils import read_message, send_message, init_outgoing_socket
 
 
 def start_proxy(listen_port: int, fake_ip: str, server_ip: str):
@@ -22,10 +22,10 @@ def start_proxy(listen_port: int, fake_ip: str, server_ip: str):
                 # we read the message and save it locally until getting \n
                 try:
                     message = read_message(current_client_socket)
-                    current_socket_to_server.send(message.encode())
+                    send_message(current_socket_to_server, message)
 
                     response = read_message(current_socket_to_server)
-                    current_client_socket.send(response.encode())
+                    send_message(current_client_socket, response)
 
                 except Exception as exc:
                     current_client_socket.close()

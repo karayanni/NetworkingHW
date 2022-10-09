@@ -1,4 +1,6 @@
 from socket import *
+BUF_SIZE = 4096
+Half_BUF_SIZE = 2048
 
 
 def read_message(open_socket: socket):
@@ -7,13 +9,23 @@ def read_message(open_socket: socket):
     :param open_socket: the socket from which we want tor read
     :return: the complete message decoded
     """
-    message = open_socket.recv(4096).decode()
+    message = open_socket.recv(BUF_SIZE).decode()
+    print("received message: " + message)
+
     while not message[-1] == '\n':
-        temp_message = open_socket.recv(2048).decode()
+        temp_message = open_socket.recv(Half_BUF_SIZE).decode()
         message += temp_message
 
-    print("received message: " + message)
     return message
+
+
+def send_message(open_socket: socket, message: str):
+    while len(message) > BUF_SIZE:
+        current_segment = message[0:BUF_SIZE]
+        open_socket.send(current_segment.encode())
+        message = message[BUF_SIZE:]
+
+    open_socket.send(message.encode())
 
 
 def init_outgoing_socket(server_ip: str, fake_ip: str):
