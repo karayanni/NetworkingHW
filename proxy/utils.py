@@ -10,6 +10,9 @@ def read_message(open_socket: socket):
     :return: the complete message decoded
     """
     message = open_socket.recv(BUF_SIZE).decode()
+
+    if message == '':
+        raise Exception("empty string is received only when the connection is closed.")
     print(f'received message, first chunk of size {BUF_SIZE}:' + message)
 
     while not message[-1] == '\n':
