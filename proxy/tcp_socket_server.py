@@ -21,7 +21,7 @@ if __name__ == '__main__':
     else:
         print(f'Failed sending big message, check ur code..')
 
-    connectionSocket.send(f'received a message of length: {len(message)} \n \n the message: {message}'.encode())
+    connectionSocket.send(f'received a message of length: {len(message)}\n'.encode())
 
     try:
         message = connectionSocket.recv(2048).decode()

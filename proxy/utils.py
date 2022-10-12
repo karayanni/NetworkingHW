@@ -9,14 +9,15 @@ def read_message(open_socket: socket):
     :param open_socket: the socket from which we want tor read
     :return: the complete message decoded
     """
-    message = open_socket.recv(BUF_SIZE).decode()
+    # nice to have: improve performance by reducing OS calls - move buffer to app lvl.
+    message = open_socket.recv(1).decode()
 
     if message == '':
         raise Exception("empty string is received only when the connection is closed.")
-    print(f'received message, first chunk of size {BUF_SIZE}:' + message)
+    print(f'received message\'s first chunk')
 
     while not message[-1] == '\n':
-        temp_message = open_socket.recv(Half_BUF_SIZE).decode()
+        temp_message = open_socket.recv(1).decode()
         message += temp_message
 
     print("The complete received message after assembly: " + message)

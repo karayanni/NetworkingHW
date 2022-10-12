@@ -17,13 +17,14 @@ def start_proxy(listen_port: int, fake_ip: str, server_ip: str):
             current_client_socket, addr = listening_socket.accept()
             current_socket_to_server = init_outgoing_socket(server_ip, fake_ip)
 
-            # todo: add the condition to check
             while True:
                 # we read the message and save it locally until getting \n
                 try:
+                    # forward client's message to server
                     message = read_message(current_client_socket)
                     send_message(current_socket_to_server, message)
 
+                    # forward server's message to client
                     response = read_message(current_socket_to_server)
                     send_message(current_client_socket, response)
 
